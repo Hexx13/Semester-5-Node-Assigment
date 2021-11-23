@@ -122,7 +122,6 @@
 
     <script>
         var myCart = [];
-
 		//TODO Get products from Product page to genetare store page
         // get cart data
       /*  for (i = 1; i < 9; i++) {
@@ -135,27 +134,77 @@
                     $('#output').html(data);
                 });
         }
-	/*
-
+	*/
     </script>
 
+	<div class="ui-grid-solo" style="padding-left: 25%; padding-right: 25%;">
+		<label for="select-native-2">Cheese Pizza</label>
+		<div class="ui-field-contain">
+			<select id="product-1-qty" name="select-native-2" id="select-native-2" data-mini="true">
+				<option value=""></option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+			</select>
+			<button id="addtocart" onclick="addToCart('product-1-qty')"> Add To Cart</button>
 
-    <div class="ui-field-contain">
-        <label for="select-native-2">BBQ Pizza</label>
+		</div>
+	</div>
+	<div class="ui-field-contain">
+		<label for="select-native-2">Pepperoni Pizza</label>
 
-        <select id="bbq_pizza_qty" name="select-native-2" id="select-native-2" data-mini="true">
-            <option value=""></option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-        </select>
-        <button id="addtocart" onclick="addToCart('bbq_pizza_qty')"> Add To Cart</button>
+		<select id="product-2-qty" name="select-native-2" id="select-native-2" data-mini="true">
+			<option value=""></option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+		</select>
+		<button id="addtocart" onclick="addToCart('product-2-qty')"> Add To Cart</button>
 
-    </div>
+	</div>
 
+	<div class="ui-field-contain">
+		<label for="select-native-2">Meatlover Pizza</label>
+		<select id="product-3-qty" name="select-native-2" id="select-native-2" data-mini="true">
+			<option value=""></option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+		</select>
+		<button id="addtocart" onclick="addToCart('product-3-qty')"> Add To Cart</button>
 
-    <script>
+	</div>
+
+	<div class="ui-field-contain">
+		<label for="select-native-2">Veggie Pizza</label>
+		<select id="product-4-qty" name="select-native-2" id="select-native-2" data-mini="true">
+			<option value=""></option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+		</select>
+		<button id="addtocart" onclick="addToCart('product-4-qty')"> Add To Cart</button>
+
+	</div>
+
+	<div class="ui-field-contain">
+		<label for="select-native-2">Chicken and Mushroom Pizza</label>
+		<select id="product-5-qty" name="select-native-2" id="select-native-2" data-mini="true">
+			<option value=""></option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+		</select>
+		<button id="addtocart" onclick="addToCart('product-5-qty')"> Add To Cart</button>
+
+	</div>
+
+	<script>
 
 
         function addToCart(itemName) {
