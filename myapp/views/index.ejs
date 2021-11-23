@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	
+    <link rel="stylesheet" href="themes/smugworms.min.css" />
+<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  </head>
+
+<body>
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1>Page Title</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<p>Page content goes here.</p>
+		
+		Username  <input type="text" id="username" name="username"/>
+		<br>
+		<button id="login"> login </button>
+		
+		<div id="output"> </div>
+		
+		<script>
+		$( "#login" ).click(function() {
+			
+			// Get the values
+			var un = $('#username').val();
+			
+			
+			if(un == ''){
+			    alert("too short");
+			} else {
+			
+						// Send the data
+						$.post( "/login", { username: un })
+						  .done(function( data ) {
+                            
+                                alert(data);
+                            
+                                if(data.includes('customer')){
+                                    window.location="/#customer";
+                                }
+                                if(data.includes('cook')){
+                                    window.location="/#cook";
+                                }
+								
+								$('#output').html(data);
+					    });
+					}
+		});
+		</script>
+		
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+    
+   
+</div><!-- /page -->
+ 
+    <!-- REGISTRATION PAGE -->
+    <div data-role="page" id="register"> 
+        <div data-role="header">
+		<h1>Registration Page</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<p>Get yoself enlisted</p>
+		
+		Username  <input type="text" id="username2" name="username2"/>
+		<br>
+        
+        Password  <input type="password" id="password" name="password"/>
+		<br>
+        
+        
+		<button id="reg"> register </button>
+		
+		<div id="output"> </div>
+		
+		<script>
+		$( "#reg" ).click(function() {
+			
+			// Get the values
+			var un = $('#username2').val();
+            // Get the values
+			var pw = $('#password').val();
+			
+		
+			if(un == ''||pw==''){
+			    alert("username or password too short");
+			} else {
+			
+						// Send the data
+						$.post( "/register", { username: un, password: pw })
+						  .done(function( data ) {
+                            
+                                alert(data);
+                            
+                            
+                                if(data.includes('index')){
+                                    window.location="";
+                                }
+								$('#output').html(data);
+					    });
+					}
+			
+		});
+		</script>
+		
+    
+    </div></div>
+     <div data-role="page" id="customer"> 
+    
+    <script>
+var myCart = [];
+        
+        // get cart data
+            for(i = 1; i < 9; i++) {
+            $.post( "/cart", { number: i})
+					.done(function( data ) {
+                        alert(data);
+                        if(data.includes('index')){
+                            window.location="";
+                                }
+				    $('#output').html(data);
+				});
+  }
+
+						
+        
+        
+        
+
+</script>
+
+
+<div class="ui-field-contain">
+    <label for="select-native-2">BBQ Pizza</label>
+   
+<select id="bbq_pizza_qty" name="select-native-2" id="select-native-2" data-mini="true">
+        <option value=""></option>
+		<option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+    </select>
+<button id="addtocart" onclick="addToCart('bbq_pizza_qty')"> Add To Cart </button>
+
+</div>
+
+
+<script>
+
+
+
+
+
+function addToCart(itemName){
+    // finding out the name of the ITEM we are adding
+    var item = itemName;
+	console.log(item);
+    
+    // dynamically find out the qty
+	var qty = $('#'+item).children("option:selected").val();
+	console.log(qty);
+    
+    // search the cart and see if we already added
+    // the item. If we did, remove the old qty.
+
+    myCart.forEach(function(itemCurrent, index, array) {
+           
+           
+           
+           if(itemCurrent.includes(item)){
+              console.log("Removing previous reference to " + item);
+              myCart.pop(index);
+           }
+    });
+    
+    
+    // add the item to the cart
+    myCart.push(item + '-' + qty);
+    
+    alert(myCart);
+
+}
+
+</script>
+    <button id='checkout'>checkout</button>
+    <script>
+        $('#checkout').click(function(){
+            $('#revieworder').html(myCart.toString());
+            window.location='/#checkoutpage';
+        });</script>
+    </div>
+    
+
+    <div data-role="page" id="driver"> driver page</div>
+    <div data-role="page" id="cook page"> used for stock requirements </div>
+    
+    <div data-role="page" id="checkoutpage"> checkoutpage 
+        
+        <div id='revieworder'></div>
+        <button id="placeorder">Place Order</button>
+        <script>$('#placeorder').click(function(){
+                $.post( "/placeorder", { cart:myCart.toString() })
+						  .done(function( data ) {
+                            alert("order placed " + data);
+					    });
+        
+        });</script>
+    </div>
+    </body>
+</html>
