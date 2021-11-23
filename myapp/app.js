@@ -22,7 +22,7 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -34,188 +34,172 @@ app.use('/index2', indexRouter2);
 app.use('/users', usersRouter);
 
 
-app.get('/login',function(req,res){
+app.get('/login', function (req, res) {
 
-  console.log("hello");
-  res.send("all ok")
+    console.log("hello");
+    res.send("all ok")
 
 });
 
-app.post('/login',function(req,res){
-	
-	// catch the username that was sent to us from the jQuery POST on the index.ejs page
-	var username=req.body.username;
+app.post('/login', function (req, res) {
 
-	// Print it out to the NodeJS console just to see if we got the variable.
-	console.log("User name = "+username);
-	
+    // catch the username that was sent to us from the jQuery POST on the index.ejs page
+    var username = req.body.username;
 
-	// Remember to check what database you are connecting to and if the
-	// values are correct.
-	var mysql      = require('mysql');
-	var connection = mysql.createConnection({
-	  host     : 'localhost',
-	  user     : 'root',
-	  password : '',
-	  database : 'assignment'
-	});
-	 
-	connection.connect();
-	 
-	 // This is the actual SQL query part
-	connection.query("select * from login where username='"+username+"' AND password='password'", function (error, results, fields) {
-	  if (error) throw error;
-	      console.log('The result is ', results[0].acctype);
-		  
-		  // send back the acc type to the client side
-		  res.send(results[0].acctype);
-	  }
-	);
-	 
-	connection.end();
-	
+    // Print it out to the NodeJS console just to see if we got the variable.
+    console.log("User name = " + username);
+
+
+    // Remember to check what database you are connecting to and if the
+    // values are correct.
+    var mysql = require('mysql');
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'assignment'
+    });
+
+    connection.connect();
+
+    // This is the actual SQL query part
+    connection.query("select * from login where username='" + username + "' AND password='password'", function (error, results, fields) {
+            if (error) throw error;
+            console.log('The result is ', results[0].acctype);
+
+            // send back the acc type to the client side
+            res.send(results[0].acctype);
+        }
+    );
+
+    connection.end();
+
 });
 
 
-app.post('/register',function(req,res){
-	
-	// catch the username that was sent to us from the jQuery POST on the index.ejs page
-	var username=req.body.username;
-    var password=req.body.password;
+app.post('/register', function (req, res) {
 
-	// Print it out to the NodeJS console just to see if we got the variable.
-	console.log("User name = "+username, "Password "+password);
-	
+    // catch the username that was sent to us from the jQuery POST on the index.ejs page
+    var username = req.body.username;
+    var password = req.body.password;
 
-	// Remember to check what database you are connecting to and if the
-	// values are correct.
-	var mysql      = require('mysql');
-	var connection = mysql.createConnection({
-	  host     : 'localhost',
-	  user     : 'root',
-	  password : '',
-	  database : 'assignment'
-	});
-	 
-	connection.connect();
-	 
-	 // This is the actual SQL query part
-	connection.query("INSERT INTO `assignment`.`login` (`username`, `password`) VALUES ('"+username+"', '"+password+"');", function (error, results, fields) {
-	  //TODO Handle incorrect username/password or server crashes
-        if (error) throw error;
-	      console.log('The result is ', results);
-		  
-		  // send back the acc type to the client side
-		  res.send('index');
-	  }
-	);
-	 
-	connection.end();
+    // Print it out to the NodeJS console just to see if we got the variable.
+    console.log("User name = " + username, "Password " + password);
 
-	
+
+    // Remember to check what database you are connecting to and if the
+    // values are correct.
+    var mysql = require('mysql');
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'assignment'
+    });
+
+    connection.connect();
+
+    // This is the actual SQL query part
+    connection.query("INSERT INTO `assignment`.`login` (`username`, `password`) VALUES ('" + username + "', '" + password + "');", function (error, results, fields) {
+            //TODO Handle incorrect username/password or server crashes
+            if (error) throw error;
+            console.log('The result is ', results);
+
+            // send back the acc type to the client side
+            res.send('index');
+        }
+    );
+
+    connection.end();
+
+
 });
 
 
+app.post('/cart', function (req, res) {
+
+    // catch the username that was sent to us from the jQuery POST on the index.ejs page
+    var num = req.body.number;
+
+    // Print it out to the NodeJS console just to see if we got the variable.
+    //console.log("User name = "+username);
 
 
+    // Remember to check what database you are connecting to and if the
+    // values are correct.
+    var mysql = require('mysql');
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'assignment'
+    });
 
+    connection.connect();
 
+    // This is the actual SQL query part
+    connection.query("select * from product", function (error, results, fields) {
+            if (error) throw error;
+            console.log('The result is ', results);
 
+            // send back the acc type to the client side
+            res.send(results);
+        }
+    );
 
+    connection.end();
 
-app.post('/cart',function(req,res){
-	
-	// catch the username that was sent to us from the jQuery POST on the index.ejs page
-	var num=req.body.number;
-
-	// Print it out to the NodeJS console just to see if we got the variable.
-	//console.log("User name = "+username);
-	
-
-	// Remember to check what database you are connecting to and if the
-	// values are correct.
-	var mysql      = require('mysql');
-	var connection = mysql.createConnection({
-	  host     : 'localhost',
-	  user     : 'root',
-	  password : '',
-	  database : 'assignment'
-	});
-	 
-	connection.connect();
-	 
-	 // This is the actual SQL query part
-	connection.query("select * from product", function (error, results, fields) {
-	  if (error) throw error;
-	      console.log('The result is ', results);
-		  
-		  // send back the acc type to the client side
-		  res.send(results);
-	  }
-	);
-	 
-	connection.end();
-	
 });
 
 
+app.post('/placeorder', function (req, res) {
+
+    // catch the username that was sent to us from the jQuery POST on the index.ejs page
+    var cart = req.body.cart;
+
+    // Print it out to the NodeJS console just to see if we got the variable.
+    console.log("cart = " + cart);
 
 
+    // Remember to check what database you are connecting to and if the
+    // values are correct.
+    var mysql = require('mysql');
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'assignment'
+    });
+
+    connection.connect();
+
+    // This is the actual SQL query part
+    connection.query("INSERT INTO `assignment`.`orders` (`ordercontent`) VALUES ('" + cart + "');", function (error, results, fields) {
+            if (error) throw error;
+
+        }
+    );
+
+    connection.end();
 
 
-
-app.post('/placeorder',function(req,res){
-	
-	// catch the username that was sent to us from the jQuery POST on the index.ejs page
-	var cart=req.body.cart;
-
-	// Print it out to the NodeJS console just to see if we got the variable.
-	console.log("cart = "+cart);
-	
-
-	// Remember to check what database you are connecting to and if the
-	// values are correct.
-	var mysql      = require('mysql');
-	var connection = mysql.createConnection({
-	  host     : 'localhost',
-	  user     : 'root',
-	  password : '',
-	  database : 'assignment'
-	});
-	 
-	connection.connect();
-	 
-	 // This is the actual SQL query part
-	connection.query("INSERT INTO `assignment`.`orders` (`ordercontent`) VALUES ('"+cart+"');", function (error, results, fields) {
-	  if (error) throw error;
-	      
-	  }
-	);
-	 
-	connection.end();
-
-
-	
-	
-	
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+app.use(function (req, res, next) {
+    next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
-
 
 
 module.exports = app;
