@@ -286,7 +286,7 @@
 			ids = [];
 			quantities = [];
 			console.log("its running");
-            $.post("/getdetail", {colll: "id", tablll: "product", valll: 1 })
+            $.get("/getdetail", {colll: "id", tablll: "product", valll: 1 })
                 .done(function (data) {
 
                     console.log(data)

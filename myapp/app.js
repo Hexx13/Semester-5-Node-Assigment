@@ -178,9 +178,11 @@ app.post('/placeorder', function (req, res) {
 
 });
 
-app.post('/getdetail', function (req, res) {
+app.get('/getdetail', function (req, res) {
 
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
+    
+    
     var col = req.body.colll;
     var table = req.body.tablll;
     var val = req.body.valll;
@@ -202,13 +204,20 @@ app.post('/getdetail', function (req, res) {
     connection.connect();
 
     // This is the actual SQL query part
-    //var query = "select * from " + table + " where " + column + "='" + val + "'";
-    connection.query("select * from product where id = '1'", function (error, results, fields) {
+    query = "select * from " + table + " where " + column + "='" + val + "'";
+    var buffer = '';
+    
+    
+    connection.query("select * from product", function (error, results, fields) {
             if (error) throw error;
-            console.log('The result is ', results[0]);
+            
+        for(var i=0; i< results.length; i++){
+              buffer = buffer + results[i].name;
+        }
+        
 
             // send back the acc type to the client side
-            res.send(results[0].acctype);
+            res.send(buffer);
         }
     );
 
