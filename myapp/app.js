@@ -185,6 +185,44 @@ app.post('/placeorder', function (req, res) {
 
 });
 
+app.post('/getdetail', function (req, res) {
+
+    // catch the username that was sent to us from the jQuery POST on the index.ejs page
+    var col = req.body.colll;
+    var table = req.body.tablll;
+    var val = req.body.valll;
+    // Print it out to the NodeJS console just to see if we got the variable.
+    console.log("Table = " + table);
+    console.log("Column = " + col);
+    console.log("Column = " + val);
+
+    // Remember to check what database you are connecting to and if the
+    // values are correct.
+    var mysql = require('mysql');
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'assignment'
+    });
+
+    connection.connect();
+
+    // This is the actual SQL query part
+    //var query = "select * from " + table + " where " + column + "='" + val + "'";
+    connection.query("select * from product where id = '1'", function (error, results, fields) {
+            if (error) throw error;
+            console.log('The result is ', results[0]);
+
+            // send back the acc type to the client side
+            res.send(results[0].acctype);
+        }
+    );
+
+    connection.end();
+
+});
+
 app.post('/cooktable', function (req, res) {
 
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
