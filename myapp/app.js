@@ -178,8 +178,20 @@ app.post('/placeorder', function (req, res) {
 
 });
 
-app.post('/getdetail', function (req, res) {
+app.post('/buildordertable', function (req, res) {
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
+    
+    
+     var content = '<table data-role="table" id="table-column-toggle"  class="ui-responsive table-stroke">' +
+                '<thead>'+
+                '<tr>'+
+                    '<th data-priority="2">ID</th>'+
+                    '<th>Product Name</th>'+
+                    '<th data-priority="3">Quantity</th>'
+                    '<th data-priority="5">Price</th>'
+                '</tr>'
+                '</thead>'
+                '<tbody>';
     
     
     var col = req.body.colll;
@@ -207,11 +219,21 @@ app.post('/getdetail', function (req, res) {
     var buffer = '';
     
     
+    
     connection.query(query, function (error, results, fields) {
             if (error) throw error;
             
+        
+        
+        
         for(var i=0; i< results.length; i++){
-              buffer = buffer + results[0].name;
+              buffer += results[0].name;
+               content += '<tr>' +
+                '<th>'+ results[i].id +  '</th>' +
+                '<td>'+ results[i].name + '</td>' +
+                '<td>'+ results[i] + '</td>' +
+                '<td>' + price  + '</td> </tr>';
+            
         }
         
 
