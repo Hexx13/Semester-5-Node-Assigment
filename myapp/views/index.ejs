@@ -297,14 +297,26 @@
 			console.log("it ran");
             $('#revieworder').html("id: " + ids[0] + ' quantity: ' + quantities[0]);
             window.location = '/#checkoutpage';
-        });</script>
+        });
+	</script>
 </div>
 
 
-<div data-role="page" id="driver"> driver page</div>
-<div data-role="page" id="cook page"> used for stock requirements</div>
 
-<div data-role="page" id="checkoutpage"> checkoutpage
+
+<div data-role="page" id="checkoutpage">
+
+
+
+        </tbody>
+    </table>
+
+    <tr>
+        <th>1</th>
+        <td>Pepperoni Pizza</td>
+        <td>5</td>
+        <td>5</td>
+    </tr>
 
     <div id='revieworder'></div>
     <button id="placeorder">Place Order</button>
