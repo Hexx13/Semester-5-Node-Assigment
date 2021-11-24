@@ -285,17 +285,17 @@
         $('#checkout').click(function () {
 			ids = [];
 			quantities = [];
-			console.log("its running");
-            $.get("/getdetail", {colll: "id", tablll: "product", valll: 1 })
+			//console.log("its running");
+            
+            $.post("/getdetail", {colll: "id", tablll: "product", valll: 1 })
                 .done(function (data) {
 
-                    console.log(data)
+                    console.log("\n ITS HEREEEEEEEEEEEE"+data)
 
-                    //$('#output').html(data);
                 });
 			myCart.forEach(proccessItems);
-			console.log("it ran");
-            $('#revieworder').html("id: " + ids[0] + ' quantity: ' + quantities[0]);
+			//console.log("it ran");
+            //$('#revieworder').html("id: " + ids[0] + ' quantity: ' + quantities[0]);
             window.location = '/#checkoutpage';
         });
 	</script>
@@ -307,16 +307,6 @@
 <div data-role="page" id="checkoutpage">
 
 
-
-        </tbody>
-    </table>
-
-    <tr>
-        <th>1</th>
-        <td>Pepperoni Pizza</td>
-        <td>5</td>
-        <td>5</td>
-    </tr>
 
     <div id='revieworder'></div>
     <button id="placeorder">Place Order</button>

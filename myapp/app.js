@@ -178,8 +178,7 @@ app.post('/placeorder', function (req, res) {
 
 });
 
-app.get('/getdetail', function (req, res) {
-
+app.post('/getdetail', function (req, res) {
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
     
     
@@ -189,7 +188,7 @@ app.get('/getdetail', function (req, res) {
     // Print it out to the NodeJS console just to see if we got the variable.
     console.log("Table = " + table);
     console.log("Column = " + col);
-    console.log("Column = " + val);
+    console.log("value = " + val);
 
     // Remember to check what database you are connecting to and if the
     // values are correct.
@@ -204,15 +203,15 @@ app.get('/getdetail', function (req, res) {
     connection.connect();
 
     // This is the actual SQL query part
-    query = "select * from " + table + " where " + column + "='" + val + "'";
+    query = "select * from product";
     var buffer = '';
     
     
-    connection.query("select * from product", function (error, results, fields) {
+    connection.query(query, function (error, results, fields) {
             if (error) throw error;
             
         for(var i=0; i< results.length; i++){
-              buffer = buffer + results[i].name;
+              buffer = buffer + results[0].name;
         }
         
 
