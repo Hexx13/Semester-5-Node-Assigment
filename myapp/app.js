@@ -13,6 +13,7 @@ var indexRouter2 = require('./routes/index2');
 
 
 var usersRouter = require('./routes/users');
+const mysql = require("mysql");
 
 var app = express();
 
@@ -34,12 +35,7 @@ app.use('/index2', indexRouter2);
 app.use('/users', usersRouter);
 
 
-app.get('/login', function (req, res) {
 
-    console.log("hello");
-    res.send("all ok")
-
-});
 
 app.post('/login', function (req, res) {
 
@@ -75,7 +71,6 @@ app.post('/login', function (req, res) {
     connection.end();
 
 });
-
 
 app.post('/register', function (req, res) {
 
@@ -115,7 +110,6 @@ app.post('/register', function (req, res) {
 
 });
 
-
 app.post('/cart', function (req, res) {
 
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
@@ -150,7 +144,6 @@ app.post('/cart', function (req, res) {
     connection.end();
 
 });
-
 
 app.post('/placeorder', function (req, res) {
 
