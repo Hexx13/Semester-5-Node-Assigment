@@ -267,8 +267,6 @@
             // the item. If we did, remove the old qty.
 
             myCart.forEach(function (itemCurrent, index, array) {
-
-
                 if (itemCurrent.includes(item)) {
                     console.log("Removing previous reference to " + item);
                     myCart.pop(index);
@@ -277,17 +275,14 @@
 
 
             // add the item to the cart
-            myCart.push(item + '-' + qty);
+            myCart.push(item + qty);
 
             alert(myCart);
-
         }
-
     </script>
     <button id='checkout'>checkout</button>
     <script>
         $('#checkout').click(function () {
-            $('#revieworder').html(myCart.toString());
             window.location = '/#checkoutpage';
         });</script>
 </div>
