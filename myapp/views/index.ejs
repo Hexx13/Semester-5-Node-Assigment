@@ -283,6 +283,19 @@
     <button id='checkout'>checkout</button>
     <script>
         $('#checkout').click(function () {
+			ids = [];
+			quantities = [];
+			console.log("its running");
+            $.post("/getdetail", {colll: "id", tablll: "product", valll: 1 })
+                .done(function (data) {
+
+                    console.log(data)
+
+                    //$('#output').html(data);
+                });
+			myCart.forEach(proccessItems);
+			console.log("it ran");
+            $('#revieworder').html("id: " + ids[0] + ' quantity: ' + quantities[0]);
             window.location = '/#checkoutpage';
         });</script>
 </div>
