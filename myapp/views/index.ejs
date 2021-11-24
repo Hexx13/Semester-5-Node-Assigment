@@ -232,6 +232,27 @@
                 });
 
 
+            var content = '<table data-role="table" id="table-column-toggle"  class="ui-responsive table-stroke">' +
+                '<thead>'+
+                '<tr>'+
+                    '<th data-priority="2">ID</th>'+
+                    '<th>Product Name</th>'+
+                    '<th data-priority="3">Quantity</th>'
+                    '<th data-priority="5">Price</th>'
+                '</tr>'
+                '</thead>'
+                '<tbody>';
+            //TODO finish this code portion for table building
+            for(i=0; i<quantities.length; i++){
+                content += '<tr>' +
+                '<th>'+ ids[i] +  '</th>' +
+                '<td>'+ itemname + '</td>' +
+                '<td>'+ quantity + '</td>' +
+                '<td>' + price  + '</td> </tr>';
+            }
+
+            content += "</tbody></table>"
+        }
 
         function addToCart(itemName) {
             // finding out the name of the ITEM we are adding
