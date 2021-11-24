@@ -212,6 +212,25 @@
 	</div>
 
 	<script>
+		var quantities = [];
+		var ids = [];
+		function proccessItems(element, index, array){
+			ids[index] = element.charAt(8);
+			if(element.charAt(13) == null || element.charAt(14) == 0)quantities[index] =0;
+			else quantities[index] = element.charAt(13);
+		}
+
+
+        // Builds cart table
+        function buildTable(){
+            $.post("/getdetail", {col: "id", table: "product", value: 1 })
+                .done(function (data) {
+
+                    console.log(data)
+
+                    //$('#output').html(data);
+                });
+
 
 
         function addToCart(itemName) {
