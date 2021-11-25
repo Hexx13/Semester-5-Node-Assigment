@@ -248,11 +248,10 @@
         function addToCart(itemName) {
             // finding out the name of the ITEM we are adding
             var item = itemName;
-            console.log(item);
 
             // dynamically find out the qty
             var qty = $('#' + item).children("option:selected").val();
-            console.log(qty);
+
 
             // search the cart and see if we already added
             // the item. If we did, remove the old qty.
@@ -276,15 +275,34 @@
         $('#checkout').click(function () {
 			ids = [];
 			quantities = [];
-			//console.log("its running");
-            
-            $.post("/getdetail", {colll: "id", tablll: "product", valll: 1 })
-                .done(function (data) {
-
-                    console.log("\n ITS HEREEEEEEEEEEEE"+data)
-
-                });
 			myCart.forEach(proccessItems);
+			//console.log("its running");
+
+			var table =
+					'<table data-role="table" id="table-column-toggle"  class="ui-responsive table-stroke">' +
+					'<thead>'+
+					'<tr>'+
+					'<th data-priority="2">ID</th>'+
+					'<th>Product Name</th>'+
+					'<th data-priority="3">Quantity</th>'+
+					'<th data-priority="5">Price</th>'+
+					'</tr>'+
+					'</thead>'+
+					'<tbody>';
+
+			for(var i = 0; i < ids.length; i ++){
+				//TODO fix this inneficient code, figure out how to send quantities as a json instead of posting multiple times
+				$.post("/buildorder", {quan: quantities[i], id: ids[i]})
+					.done(function (data) {
+						console.log(data);
+						table+=data;
+						$('#revieworder').html(data);
+					});
+
+			}
+			table+= "</tbody></table>";
+
+
 			//console.log("it ran");
             //$('#revieworder').html("id: " + ids[0] + ' quantity: ' + quantities[0]);
             window.location = '/#checkoutpage';

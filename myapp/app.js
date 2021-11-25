@@ -178,7 +178,7 @@ app.post('/placeorder', function (req, res) {
 
 });
 
-app.post('/buildordertable', function (req, res) {
+app.post('/buildproducttable', function (req, res) {
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
     
     
@@ -187,10 +187,10 @@ app.post('/buildordertable', function (req, res) {
                 '<tr>'+
                     '<th data-priority="2">ID</th>'+
                     '<th>Product Name</th>'+
-                    '<th data-priority="3">Quantity</th>'
-                    '<th data-priority="5">Price</th>'
-                '</tr>'
-                '</thead>'
+                    '<th data-priority="3">Quantity</th>'+
+                    '<th data-priority="5">Price</th>'+
+                '</tr>'+
+                '</thead>'+
                 '<tbody>';
     
     
@@ -227,18 +227,56 @@ app.post('/buildordertable', function (req, res) {
         
         
         for(var i=0; i< results.length; i++){
-              buffer += results[0].name;
                content += '<tr>' +
                 '<th>'+ results[i].id +  '</th>' +
                 '<td>'+ results[i].name + '</td>' +
-                '<td>'+ results[i] + '</td>' +
-                '<td>' + price  + '</td> </tr>';
+                '<td>'+ results[i].quantity + '</td>' +
+                '<td>' + results[i].price  + '</td> </tr>';
             
-        }
+        } content+= "</tbody></table>";
         
 
             // send back the acc type to the client side
-            res.send(buffer);
+            res.send(content);
+        }
+    );
+
+    connection.end();
+
+});
+
+app.post('/buildorder', function (req, res) {
+    // catch the username that was sent to us from the jQuery POST on the index.ejs page
+    var quantity = req.body.quan;
+    var id = req.body.id;
+
+    // Remember to check what database you are connecting to and if the
+    // values are correct.
+    var mysql = require('mysql');
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: '',
+        database: 'assignment'
+    });
+
+    connection.connect();
+
+    // This is the actual SQL query part
+    query = "select * from product where id='"+ id +"'";
+    var content = " ";
+
+    connection.query(query, function (error, results, fields) {
+            if (error) throw error;
+                content += '<tr>' +
+                '<th>'+ results[0].id +  '</th>' +
+                '<td>'+ results[0].name + '</td>' +
+                '<td>'+ results[0].quantity + '</td>' +
+                '<td>' + results[0].price  + '</td> </tr>';
+
+
+            // send back the acc type to the client side
+            res.send(content);
         }
     );
 
