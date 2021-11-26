@@ -1,8 +1,20 @@
+<script>
+    
+    //TODO cook page v2
+    //TODO upgrade cart page
+    //TODO make site prettier
+    /*
+    * images/logo
+    * Social media icons on footer
+    * */
+    //TODO calculate total in checkout
+
+</script>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <script>//TODO Sessions
-    </script>
+
     <link rel="stylesheet" href="themes/smugworms.min.css"/>
     <link rel="stylesheet" href="themes/jquery.mobile.icons.min.css"/>
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css"/>
@@ -12,26 +24,30 @@
 
 <body>
 
-<div data-role="page">
 
-    <div data-role="header">
-        <h1>Page Title</h1>
-    </div><!-- /header -->
+<div data-role="page" style="color: #2e3333; font-size: 1vw">
+
+
+    <div class="ui-grid-solo"
+         style="background-color: #00ccbc; color: white; font-size: 4vw; text-align: center; padding-top: 1%; padding-bottom: 1%">
+        Devileroo
+    </div>
+
 
     <div role="main" class="ui-content">
-        <p>Page content goes here.</p>
-
         Username <input type="text" id="username" name="username"/>
         <br>
         Passowrd <input type="text" id="password" name="password"/>
         <br>
-        <button id="login"> login</button>
-
+        <button style="font-size: 1.2vw;" id="login"> login</button>
+        <button style="font-size: 1.2vw;" id="login" onclick="sendReg()"> register</button>
         <div id="output"></div>
 
         <script>
+            function sendReg(){
+                window.location = "/#register";
+            }
             $("#login").click(function () {
-
                 // Get the values
                 var un = $('#username').val();
                 var ps = $('#password').val();
@@ -44,20 +60,38 @@
                     // Send the data
                     $.post("/login", {username: un, passwordd: ps})
                         .done(function (data) {
-                            if(data == false){
+                            if (data == false) {
                                 alert("Wrong login details");
                             }
                             if (data.includes('customer')) {
                                 window.location = "/#customer";
                             }
                             if (data.includes('cook')) {
+                                window.location = "/#cook";
                                 $.get("/cooktable", {})
                                     .done(function (data) {
-                                        $('#cook').html(data);
+                                        $('#tabContainer').html(data);
+
                                     });
-                                window.location = "/#cook";
+
+                            }
+                            if (data.includes('manager')) {
+                                window.location = "/#manager";
+                                $.get("/employeeTable", {})
+                                    .done(function (data) {
+                                        $('#employeeTable').html(data);
+                                        //nesting posts, fear, terror, agony
+                                        $.get("/productTable", {})
+                                            .done(function (datra) {
+                                                $('#productTable').html(datra);
+                                                //it gets worse
+                                                $.get("/orderTable", {})
+                                                    .done(function (datba) {
+                                                        $('#orderTable').html(datba);
+                                                    });
+                                            });
+                                    });
                             } else {
-                                $('#output').html(data);
                             }
                         });
                 }
@@ -66,167 +100,290 @@
 
     </div><!-- /content -->
 
-    <div data-role="footer">
-        <h4>Page Footer</h4>
+    <div data-role="footer" data-position="fixed"
+         style="background-color: #2e3333;font-size: 0.7vw; text-shadow: none; padding: 0.5%; color: whitesmoke; font-style: italic; text-align: center;">
+        We cannot guarantee that our food will not cause occurrences such as sudden death.
     </div><!-- /footer -->
 
 
 </div><!-- /page -->
 
 <!-- REGISTRATION PAGE -->
-<div data-role="page" id="register">
-    <div data-role="header">
-        <h1>Registration Page</h1>
-    </div><!-- /header -->
+<div data-role="page" id="register" style="color: #2e3333; font-size: 1vw">
+    <div class="ui-grid-solo"
+         style="background-color: #00ccbc; color: white; font-size: 4vw; text-align: center; padding-top: 1%; padding-bottom: 1%">
+        Devileroo - Register
+    </div>
 
     <div role="main" class="ui-content">
         <p>Get yoself enlisted</p>
 
-        Username <input type="text" id="username2" name="username2"/>
+        Username <input type="text" id="username3" name="username2"/>
         <br>
 
-        Password <input type="password" id="password" name="password"/>
+        Password <input type="password" id="password3" name="password"/>
         <br>
 
+        email <input type="text" id="email" name="username2"/>
+        <br>
 
-        <button id="reg"> register</button>
-
+        <button class="btn" id="reg"> register</button>
+        <button class="btn" id="regLogin" onclick="sendLog()"> login</button>
         <div id="output"></div>
 
         <script>
+            function sendLog(){
+                window.location = "";
+            }
             $("#reg").click(function () {
 
                 // Get the values
-                let un = $('#username2').val();
+                let un = $('#username3').val();
                 // Get the values
-                let pw = $('#password').val();
-
+                let pw = $('#password3').val();
+                let em = $('#email').val();
 
                 if (un == '' || pw == '') {
+                    console.log(un);
                     alert("username or password too short");
                 } else {
 
                     // Send the data
-                    $.post("/register", {username: un, password: pw})
+                    $.post("/register", {username: un, password: pw, email: em})
                         .done(function (data) {
-                            alert(data);
+                            alert("Registration Successful, please log in");
                             if (data.includes('index')) {
                                 window.location = "";
                             }
-                            $('#output').html(data);
                         });
                 }
             });
         </script>
-
-
     </div>
+    <div data-role="footer" data-position="fixed"
+         style="background-color: #2e3333;font-size: 0.7vw; text-shadow: none; padding: 0.5%; color: whitesmoke; font-style: italic; text-align: center;">
+        We cannot guarantee that our food will not cause occurrences such as sudden death.
+    </div><!-- /footer -->
 </div>
 <div data-role="page" id="customer">
-    <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
-        <label for="select-native-2">Cheese Pizza</label>
-        <div class="ui-field-contain">
-            <select id="product-1-qty" name="select-native-2" id="select-native-2" data-mini="true">
-                <option value=""></option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-            <button id="addtocart" onclick="addToCart('product-1-qty')"> Add To Cart</button>
-
-        </div>
-    </div>
-    <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
-        <label for="select-native-2">Pepperoni Pizza</label>
-        <div class="ui-field-contain">
-
-
-            <select id="product-2-qty" name="select-native-2" data-mini="true">
-                <option value=""></option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-            <button id="addtocart" onclick="addToCart('product-2-qty')"> Add To Cart</button>
-
-        </div>
-    </div>
-    <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
-        <label for="select-native-2">Meatlover Pizza</label>
-        <div class="ui-field-contain">
-
-            <select id="product-3-qty" name="select-native-2" id="select-native-2" data-mini="true">
-                <option value=""></option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-            <button id="addtocart" onclick="addToCart('product-3-qty')"> Add To Cart</button>
-        </div>
-    </div>
-    <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
-        <label for="select-native-2">Veggie Pizza</label>
-        <div class="ui-field-contain">
-            <select id="product-4-qty" name="select-native-2" id="select-native-2" data-mini="true">
-                <option value=""></option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-            <button id="addtocart" onclick="addToCart('product-4-qty')"> Add To Cart</button>
-
-        </div>
-    </div>
-    <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
-        <label for="select-native-2">Chicken and Mushroom Pizza</label>
-        <div class="ui-field-contain">
-            <select id="product-5-qty" name="select-native-2" i data-mini="true">
-                <option value=""></option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-            <button id="addtocart" onclick="addToCart('product-5-qty')"> Add To Cart</button>
-
-        </div>
+    <div class="ui-grid-solo"
+         style="background-color: #00ccbc; color: white; font-size: 4vw; text-align: center; padding-top: 1%; padding-bottom: 1%">
+        Devileroo - Store
     </div>
 
-    <button id='checkout'>checkout</button>
+    <div class="ui-grid-b">
+        <div class="ui-block-a">
+            <div class="ui-bar ui-bar-a" style="height:100%; background-color: white; color: #2e3333; text-shadow: none; border-bottom-color: white;"></div>
+        </div>
+        <div class="ui-block-b">
+            <div class="ui-bar ui-bar-a" style="height:100%; background-color: white; color: #2e3333; text-shadow: none; border-bottom-color: white;">
+
+                <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
+                    <h1>Cheese Pizza</h1>
+                    <div class="ui-field-contain">
+                        <select id="product-1-qty" name="select-native-2" id="select-native-2" data-mini="true">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        <button class="btn" id="addtocart" onclick="addToCart('product-1-qty')"> Add To Cart</button>
+
+                    </div>
+                </div>
+                <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
+                    <h1>Pepperoni Pizza</h1>
+                    <div class="ui-field-contain">
+
+
+                        <select id="product-2-qty" name="select-native-2" data-mini="true">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        <button class="btn" id="addtocart" onclick="addToCart('product-2-qty')"> Add To Cart</button>
+
+                    </div>
+                </div>
+                <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
+                    <h1>Meatlover Pizza</h1>
+                    <div class="ui-field-contain">
+
+                        <select id="product-3-qty" name="select-native-2" id="select-native-2" data-mini="true">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        <button class="btn" id="addtocart" onclick="addToCart('product-3-qty')"> Add To Cart</button>
+                    </div>
+                </div>
+                <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
+                    <h1>Veggie Pizza</h1>
+                    <div class="ui-field-contain">
+                        <select id="product-4-qty" name="select-native-2" id="select-native-2" data-mini="true">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        <button class="btn" id="addtocart" onclick="addToCart('product-4-qty')"> Add To Cart</button>
+
+                    </div>
+                </div>
+                <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
+                    <h1>Chicken and Mushroom Pizza</h1>
+                    <div class="ui-field-contain">
+                        <select id="product-5-qty" name="select-native-2" i data-mini="true">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                        </select>
+                        <button class="btn" id="addtocart" onclick="addToCart('product-5-qty')"> Add To Cart</button>
+
+                    </div>
+                </div>
+
+                <button class="btn" id='checkout'>checkout</button>
+
+
+            </div>
+        </div>
+        <div class="ui-block-c">
+            <div class="ui-bar ui-bar-a" style="height:100%; background-color: white; color: #2e3333; text-shadow: none; border-bottom-color: white;"></div>
+        </div>
+    </div><!-- /grid-b -->
+
+
     <script>
         $('#checkout').click(function () {
             buildcart();
-
         });
     </script>
+    <div data-role="footer" data-position="fixed"
+         style="background-color: #2e3333;font-size: 0.7vw; text-shadow: none; padding: 0.5%; color: whitesmoke; font-style: italic; text-align: center;">
+        We cannot guarantee that our food will not cause occurrences such as sudden death.
+    </div><!-- /footer -->
 </div>
 <div data-role="page" id="checkoutpage">
-
+    <div class="ui-grid-solo"
+         style="background-color: #00ccbc; color: white; font-size: 4vw; text-align: center; padding-top: 1%; padding-bottom: 1%">
+        Devileroo - Checkout
+    </div>
 
     <table data-role="table" id="revieworder" class="ui-responsive table-stroke">
 
 
     </table>
-    <button id="placeorder">Place Order</button>
+    <button class="btn" id="placeorder">Place Order</button>
     <script>$('#placeorder').click(function () {
 
             $.post("/placeorder", {cart: myCart.toString()})
                 .done(function (data) {
                     alert("order placed " + data);
+                    window.location= "/#successful";
                 });
 
         });</script>
+    <div data-role="footer" data-position="fixed"
+         style="background-color: #2e3333;font-size: 0.7vw; text-shadow: none; padding: 0.5%; color: whitesmoke; font-style: italic; text-align: center;">
+        We cannot guarantee that our food will not cause occurrences such as sudden death.
+    </div><!-- /footer -->
 </div>
 <div data-role="page" id="cook">
-    <div className="ui-grid-solo" id="tabContainer" style="padding-left: 10%; padding-right: 10%;">
-
+    <div class="ui-grid-solo"
+         style="background-color: #00ccbc; color: white; font-size: 4vw; text-align: center; padding-top: 1%; padding-bottom: 1%">
+        Devileroo - Cook Page
     </div>
+    <div class="ui-grid-b">
+        <div class="ui-block-a">
+            <div class="ui-bar ui-bar-a" style="height:100%; background-color: white; color: #2e3333; text-shadow: none; border-bottom-color: white;"></div>
+        </div>
+        <div class="ui-block-b">
+            <div class="ui-bar ui-bar-a" style="height:100%; background-color: white; color: #2e3333; text-shadow: none; border-bottom-color: white;">
+                <div className="ui-grid-solo" id="tabContainer" style="padding-left: 10%; padding-right: 10%;">
+
+                </div>
+            </div>
+        </div>
+        <div class="ui-block-c">
+            <div class="ui-bar ui-bar-a" style="height:100%; background-color: white; color: #2e3333; text-shadow: none; border-bottom-color: white;"></div>
+        </div>
+    </div><!-- /grid-b -->
+
+
+    <div data-role="footer" data-position="fixed"
+         style="background-color: #2e3333;font-size: 0.7vw; text-shadow: none; padding: 0.5%; color: whitesmoke; font-style: italic; text-align: center;">
+        We cannot guarantee that our food will not cause occurrences such as sudden death.
+    </div><!-- /footer -->
 </div>
-<div data-role="page" id="manager"> manager page</div>
+<div data-role="page" id="manager">
+    <div class="ui-grid-solo"
+         style="background-color: #00ccbc; color: white; font-size: 4vw; text-align: center; padding-top: 1%; padding-bottom: 1%">
+        Devileroo - Manager Page
+    </div>
+    <h1> Manager Portal</h1>
+    <h2>Employees</h2>
+    <table data-role="table" id="table-column-toggle" class="ui-responsive table-stroke">
+        <thead>
+        <tr>
+            <th data-priority="2">ID</th>
+            <th>username</th>
+            <th data-priority="3">Email Address</th>
+        </tr>
+        </thead>
+        <tbody id="employeeTable">
+        </tbody>
+    </table>
+    <h2>Products</h2>
+    <table data-role="table" id="table-column-toggle" class="ui-responsive table-stroke">
+        <thead>
+        <tr>
+            <th data-priority="2">ID</th>
+            <th>Product Name</th>
+            <th data-priority="3">Price</th>
+            <th data-priority="4">Quantity</th>
+        </tr>
+        </thead>
+        <tbody id="productTable">
+        </tbody>
+    </table>
+    <h2>Orders</h2>
+    <table data-role="table" id="table-column-toggle" class="ui-responsive table-stroke">
+        <thead>
+        <tr>
+            <th data-priority="2">ID</th>
+            <th>Order Content</th>
+            <th data-priority="3">Total</th>
+        </tr>
+        </thead>
+        <tbody id="orderTable">
+        </tbody>
+    </table>
+    <div data-role="footer" data-position="fixed"
+         style="background-color: #2e3333;font-size: 0.7vw; text-shadow: none; padding: 0.5%; color: whitesmoke; font-style: italic; text-align: center;">
+        We cannot guarantee that our food will not cause occurrences such as sudden death.
+    </div><!-- /footer -->
+</div>
+<div data-role="page" id="successful">
+    <div class="ui-grid-solo"
+         style="background-color: #00ccbc; color: white; font-size: 4vw; text-align: center; padding-top: 2%; padding-bottom: 10%">
+        Devileroo - Order Successful!
+    </div>
+    <button class="btn" id="backtostore" onclick="backStore()">Back to store</button>
+    <script> function backStore(){window.location= "#customer";}</script>
+    <div data-role="footer" data-position="fixed"
+         style="background-color: #2e3333;font-size: 0.7vw; text-shadow: none; padding: 0.5%; color: whitesmoke; font-style: italic; text-align: center;">
+        We cannot guarantee that our food will not cause occurrences such as sudden death.
+    </div><!-- /footer -->
+</div>
 <script>
     let myCart = [];
     let quantities = [];
@@ -280,10 +437,10 @@
         alert(myCart);
     }
 
-    function changeQuantity(id, name){
+    function changeQuantity(id, name) {
         console.log(name);
-        let quantus = $('#'+id).val();
-        let namus = $('#'+name).text();
+        let quantus = $('#' + id).val();
+        let namus = $('#' + name).text();
         console.log(namus);
         console.log(quantus);
         $.post("/updateCook", {quanty: quantus, namey: namus})
