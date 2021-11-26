@@ -23,6 +23,8 @@
 
         Username <input type="text" id="username" name="username"/>
         <br>
+        Passowrd <input type="text" id="password" name="password"/>
+        <br>
         <button id="login"> login</button>
 
         <div id="output"></div>
@@ -32,6 +34,7 @@
 
                 // Get the values
                 var un = $('#username').val();
+                var ps = $('#password').val();
 
 
                 if (un == '') {
@@ -39,19 +42,23 @@
                 } else {
 
                     // Send the data
-                    $.post("/login", {username: un})
+                    $.post("/login", {username: un, passwordd: ps})
                         .done(function (data) {
-
-                            alert(data);
-
+                            if(data == false){
+                                alert("Wrong login details");
+                            }
                             if (data.includes('customer')) {
                                 window.location = "/#customer";
                             }
                             if (data.includes('cook')) {
+                                $.get("/cooktable", {})
+                                    .done(function (data) {
+                                        $('#cook').html(data);
+                                    });
                                 window.location = "/#cook";
+                            } else {
+                                $('#output').html(data);
                             }
-
-                            $('#output').html(data);
                         });
                 }
             });

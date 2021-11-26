@@ -57,14 +57,20 @@ app.post('/login', function (req, res) {
     connection.connect();
 
     // This is the actual SQL query part
-    connection.query("select * from login where username='" + username + "' AND password='password'", function (error, results, fields) {
-            if (error) throw error;
-            console.log('The result is ', results[0].acctype);
 
-            // send back the acc type to the client side
-            res.send(results[0].acctype);
-        }
-    );
+        connection.query("select * from login where username='" + us + "' AND password='" + ps + "'", function (error, results, fields) {
+                if (error) throw error;
+                if (results.toString() == "") res.send(false);
+                else {
+                    console.log('The result is ', results[0].acctype);
+                    // send back the acc type to the client side
+                    res.send(results[0].acctype);
+                }
+
+            }
+        );
+
+
 
     connection.end();
 
