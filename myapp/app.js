@@ -345,11 +345,11 @@ app.get('/cooktable', function (req, res) {
 
 });
 
-app.post('/cook',function(req,res) {
+app.post('/updateCook',function(req,res) {
 
 
 
-    let id = req.body.id;
+    let idy = req.body.id;
     let qanty = req.body.quanty;
 
     // Remember to check what database you are connecting to and if the

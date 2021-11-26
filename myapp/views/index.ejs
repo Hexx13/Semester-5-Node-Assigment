@@ -97,9 +97,9 @@
             $("#reg").click(function () {
 
                 // Get the values
-                var un = $('#username2').val();
+                let un = $('#username2').val();
                 // Get the values
-                var pw = $('#password').val();
+                let pw = $('#password').val();
 
 
                 if (un == '' || pw == '') {
@@ -195,65 +195,7 @@
 
         </div>
     </div>
-    <script>
-        let myCart = [];
-        let quantities = [];
-        let ids = [];
 
-        //used for dealing with existing code instead of changing it :D
-        function proccessItems(element, index, array) {
-            ids[index] = element.charAt(8);
-            if (element.charAt(13) == null || element.charAt(13) == 0) quantities[index] = 0;
-            else quantities[index] = element.charAt(13);
-        }
-
-        //Builds the checkout table
-        function buildcart() {
-            ids = [];
-            quantities = [];
-            myCart.forEach(proccessItems);
-            console.log(quantities);
-            let quanToJSON = JSON.stringify(quantities);
-            let idsToJSON = JSON.stringify(ids);
-            $.post("/buildorder", {quanjson: quanToJSON, idjson: idsToJSON})
-                .done(function (data) {
-                    console.log(data);
-                    $('#revieworder').html(data);
-                    window.location = '/#checkoutpage';
-                });
-        }
-
-        function addToCart(itemName) {
-            // finding out the name of the ITEM we are adding
-            let item = itemName;
-
-            // dynamically find out the qty
-            let qty = $('#' + item).children("option:selected").val();
-
-
-            // search the cart and see if we already added
-            // the item. If we did, remove the old qty.
-
-            myCart.forEach(function (itemCurrent, index, array) {
-                if (itemCurrent.includes(item)) {
-                    console.log("Removing previous reference to " + item);
-                    myCart.pop(index);
-                }
-            });
-
-            // add the item to the cart
-            myCart.push(item + qty);
-
-            alert(myCart);
-        }
-
-        function changeQuantity(id){
-
-
-
-        }
-
-    </script>
     <button id='checkout'>checkout</button>
     <script>
         $('#checkout').click(function () {
@@ -262,8 +204,6 @@
         });
     </script>
 </div>
-
-
 <div data-role="page" id="checkoutpage">
 
 
@@ -281,14 +221,75 @@
 
         });</script>
 </div>
-
-
 <div data-role="page" id="cook">
     <div className="ui-grid-solo" id="tabContainer" style="padding-left: 10%; padding-right: 10%;">
 
     </div>
 </div>
 <div data-role="page" id="manager"> manager page</div>
+<script>
+    let myCart = [];
+    let quantities = [];
+    let ids = [];
 
+    //used for dealing with existing code instead of changing it :D
+    function proccessItems(element, index, array) {
+        ids[index] = element.charAt(8);
+        if (element.charAt(13) == null || element.charAt(13) == 0) quantities[index] = 0;
+        else quantities[index] = element.charAt(13);
+    }
+
+    //Builds the checkout table
+    function buildcart() {
+        ids = [];
+        quantities = [];
+        myCart.forEach(proccessItems);
+        console.log(quantities);
+        let quanToJSON = JSON.stringify(quantities);
+        let idsToJSON = JSON.stringify(ids);
+        $.post("/buildorder", {quanjson: quanToJSON, idjson: idsToJSON})
+            .done(function (data) {
+                console.log(data);
+                $('#revieworder').html(data);
+                window.location = '/#checkoutpage';
+            });
+    }
+
+    function addToCart(itemName) {
+        // finding out the name of the ITEM we are adding
+        let item = itemName;
+
+        // dynamically find out the qty
+        let qty = $('#' + item).children("option:selected").val();
+
+
+        // search the cart and see if we already added
+        // the item. If we did, remove the old qty.
+
+        myCart.forEach(function (itemCurrent, index, array) {
+            if (itemCurrent.includes(item)) {
+                console.log("Removing previous reference to " + item);
+                myCart.pop(index);
+            }
+        });
+
+        // add the item to the cart
+        myCart.push(item + qty);
+
+        alert(myCart);
+    }
+
+    function changeQuantity(id){
+        let quantus = $('#'+id).val();
+        $.post("/updateCook", {quanty: quantus, idy: id})
+            .done(function (data) {
+                alert("Updated: " + id);
+                $('#revieworder').html(data);
+                window.location = '/#checkoutpage';
+            });
+
+    }
+
+</script>
 </body>
 </html>
