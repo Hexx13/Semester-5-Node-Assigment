@@ -330,10 +330,11 @@ app.get('/cooktable', function (req, res) {
             if (error) throw error;
 
             results.forEach(function (element, index, array) {
+                let inID = 'cookProd' + element.id;
                 buffer +=
                     '<label for="number-2">' + element.name + '</label>' +
-                    '<input type="number" data-clear-btn="true" name="number-2" id="input' + index + '" value="' + element.quantity + '">'+
-                '<button onclick="changeQuantity('+ element.id +')"> Change Quantity </button>';
+                    '<input type="number" data-clear-btn="true" name="product" id="input' + index + '" value="' + element.quantity + '">'+
+                '<button onclick="changeQuantity('+ inID+')" id="'+inID+'"> Change Quantity </button>';
             });
             // send back the acc type to the client side
             res.send(buffer);
@@ -342,6 +343,35 @@ app.get('/cooktable', function (req, res) {
 
     connection.end();
 
+});
+
+app.post('/cook',function(req,res) {
+
+
+
+    let id = req.body.id;
+    let qanty = req.body.quanty;
+
+    // Remember to check what database you are connecting to and if the
+    // values are correct.
+    let mysql = require('mysql');
+    let connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        password: 'Password',
+        database: 'mydb'
+    });
+
+    connection.connect();
+
+    // This is the actual SQL query part
+    connection.query("UPDATE `product` SET `qty`='"+foodvalue+"' WHERE  id='"+foodn+"';", function (error, results, fields) {
+            if (error) throw error;
+
+        }
+    );
+    res.send(null);
+    connection.end();
 });
 
 // catch 404 and forward to error handler
