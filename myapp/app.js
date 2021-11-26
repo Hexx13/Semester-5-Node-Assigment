@@ -331,10 +331,12 @@ app.get('/cooktable', function (req, res) {
 
             results.forEach(function (element, index, array) {
                 let inID = 'cookProd' + element.id;
+                let labID = 'cooklabel'+ index;
+                console.log(inID);
                 buffer +=
-                    '<label for="number-2">' + element.name + '</label>' +
-                    '<input type="number" data-clear-btn="true" name="product" id="input' + index + '" value="' + element.quantity + '">'+
-                '<button onclick="changeQuantity('+ inID+')" id="'+inID+'"> Change Quantity </button>';
+                    '<label for="number-2" id="'+labID+'">' + element.name + '</label>' +
+                    '<input type="number" data-clear-btn="true" name="product" id="'+inID+'" value="' + element.quantity + '">'+
+                '<button onclick="changeQuantity(&#39;'+inID+'&#39;,&#39;'+labID+'&#39; )"> Change Quantity </button>';
             });
             // send back the acc type to the client side
             res.send(buffer);
@@ -349,8 +351,11 @@ app.post('/updateCook',function(req,res) {
 
 
 
-    let idy = req.body.id;
     let qanty = req.body.quanty;
+    let nameyy = req.body.namey;
+
+    console.log("ID IS " + nameyy);
+    console.log("QUANTITY "  + qanty);
 
     // Remember to check what database you are connecting to and if the
     // values are correct.
@@ -358,19 +363,18 @@ app.post('/updateCook',function(req,res) {
     let connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
-        password: 'Password',
-        database: 'mydb'
+        password: '',
+        database: 'assignment'
     });
 
     connection.connect();
 
     // This is the actual SQL query part
-    connection.query("UPDATE `product` SET `qty`='"+foodvalue+"' WHERE  id='"+foodn+"';", function (error, results, fields) {
+    connection.query("UPDATE `product` SET quantity='"+qanty+"' WHERE  name='"+nameyy+"';", function (error, results, fields) {
             if (error) throw error;
-
+            res.send(null);
         }
     );
-    res.send(null);
     connection.end();
 });
 

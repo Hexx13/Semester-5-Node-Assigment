@@ -250,6 +250,7 @@
         $.post("/buildorder", {quanjson: quanToJSON, idjson: idsToJSON})
             .done(function (data) {
                 console.log(data);
+                window.location = '/#checkoutpage';
                 $('#revieworder').html(data);
                 window.location = '/#checkoutpage';
             });
@@ -279,9 +280,13 @@
         alert(myCart);
     }
 
-    function changeQuantity(id){
+    function changeQuantity(id, name){
+        console.log(name);
         let quantus = $('#'+id).val();
-        $.post("/updateCook", {quanty: quantus, idy: id})
+        let namus = $('#'+name).text();
+        console.log(namus);
+        console.log(quantus);
+        $.post("/updateCook", {quanty: quantus, namey: namus})
             .done(function (data) {
                 alert("Updated: " + id);
             });
