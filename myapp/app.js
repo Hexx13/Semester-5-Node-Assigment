@@ -38,10 +38,11 @@ app.use('/users', usersRouter);
 app.post('/login', function (req, res) {
 
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
-    let username = req.body.username;
+    let us = req.body.username;
+    let ps = req.body.passwordd;
 
     // Print it out to the NodeJS console just to see if we got the variable.
-    console.log("User name = " + username);
+    console.log("User name = " + us);
 
 
     // Remember to check what database you are connecting to and if the
@@ -307,7 +308,7 @@ app.post('/buildorder', function (req, res) {
     connection.end();
 });
 
-app.post('/cooktable', function (req, res) {
+app.get('/cooktable', function (req, res) {
 
 
     // Remember to check what database you are connecting to and if the
@@ -322,7 +323,7 @@ app.post('/cooktable', function (req, res) {
 
     connection.connect();
 
-    let buffer = " "
+    let buffer = " ";
 
     // This is the actual SQL query part
     connection.query("select * from product", function (error, results, fields) {
@@ -330,14 +331,12 @@ app.post('/cooktable', function (req, res) {
 
             results.forEach(function (element, index, array) {
                 buffer +=
-                    '<div className="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">' +
                     '<label for="number-2">' + element.name + '</label>' +
-                    '<input type="number" data-clear-btn="true" name="number-2" id="number-2" value="' + element.quantity + '">' +
-                    '</div>';
+                    '<input type="number" data-clear-btn="true" name="number-2" id="input' + index + '" value="' + element.quantity + '">'+
+                '<button onclick="changeQuantity('+ element.id +')"> Change Quantity </button>';
             });
-
             // send back the acc type to the client side
-            res.send(results[0].acctype);
+            res.send(buffer);
         }
     );
 
