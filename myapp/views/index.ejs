@@ -284,8 +284,6 @@
         $.post("/updateCook", {quanty: quantus, idy: id})
             .done(function (data) {
                 alert("Updated: " + id);
-                $('#revieworder').html(data);
-                window.location = '/#checkoutpage';
             });
 
     }
