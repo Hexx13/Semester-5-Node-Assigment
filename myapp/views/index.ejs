@@ -102,17 +102,13 @@
                     // Send the data
                     $.post("/register", {username: un, password: pw})
                         .done(function (data) {
-
                             alert(data);
-
-
                             if (data.includes('index')) {
                                 window.location = "";
                             }
                             $('#output').html(data);
                         });
                 }
-
             });
         </script>
 
@@ -120,137 +116,111 @@
     </div>
 </div>
 <div data-role="page" id="customer">
+    <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
+        <label for="select-native-2">Cheese Pizza</label>
+        <div class="ui-field-contain">
+            <select id="product-1-qty" name="select-native-2" id="select-native-2" data-mini="true">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <button id="addtocart" onclick="addToCart('product-1-qty')"> Add To Cart</button>
 
+        </div>
+    </div>
+    <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
+        <label for="select-native-2">Pepperoni Pizza</label>
+        <div class="ui-field-contain">
+
+
+            <select id="product-2-qty" name="select-native-2" data-mini="true">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <button id="addtocart" onclick="addToCart('product-2-qty')"> Add To Cart</button>
+
+        </div>
+    </div>
+    <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
+        <label for="select-native-2">Meatlover Pizza</label>
+        <div class="ui-field-contain">
+
+            <select id="product-3-qty" name="select-native-2" id="select-native-2" data-mini="true">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <button id="addtocart" onclick="addToCart('product-3-qty')"> Add To Cart</button>
+        </div>
+    </div>
+    <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
+        <label for="select-native-2">Veggie Pizza</label>
+        <div class="ui-field-contain">
+            <select id="product-4-qty" name="select-native-2" id="select-native-2" data-mini="true">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <button id="addtocart" onclick="addToCart('product-4-qty')"> Add To Cart</button>
+
+        </div>
+    </div>
+    <div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
+        <label for="select-native-2">Chicken and Mushroom Pizza</label>
+        <div class="ui-field-contain">
+            <select id="product-5-qty" name="select-native-2" i data-mini="true">
+                <option value=""></option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <button id="addtocart" onclick="addToCart('product-5-qty')"> Add To Cart</button>
+
+        </div>
+    </div>
     <script>
-        var myCart = [];
-		//TODO Get products from Product page to genetare store page
-        // get cart data
-      /*  for (i = 1; i < 9; i++) {
-            $.post("/cart", {number: i})
-                .done(function (data) {
-                    alert(data);
-                    if (data.includes('index')) {
-                        window.location = "";
-                    }
-                    $('#output').html(data);
-                });
+        let myCart = [];
+        let quantities = [];
+        let ids = [];
+        //used for dealing with existing code instead of changing it :D
+        function proccessItems(element, index, array) {
+            ids[index] = element.charAt(8);
+            if (element.charAt(13) == null || element.charAt(13) == 0) quantities[index] = 0;
+            else quantities[index] = element.charAt(13);
         }
-	*/
-    </script>
 
-	<div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
-		<label for="select-native-2">Cheese Pizza</label>
-		<div class="ui-field-contain">
-			<select id="product-1-qty" name="select-native-2" id="select-native-2" data-mini="true">
-				<option value=""></option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-			</select>
-			<button id="addtocart" onclick="addToCart('product-1-qty')"> Add To Cart</button>
-
-		</div>
-	</div>
-	<div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
-		<label for="select-native-2">Pepperoni Pizza</label>
-		<div class="ui-field-contain">
-
-
-			<select id="product-2-qty" name="select-native-2" id="select-native-2" data-mini="true">
-				<option value=""></option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-			</select>
-			<button id="addtocart" onclick="addToCart('product-2-qty')"> Add To Cart</button>
-
-		</div>
-	</div>
-	<div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
-		<label for="select-native-2">Meatlover Pizza</label>
-		<div class="ui-field-contain">
-
-			<select id="product-3-qty" name="select-native-2" id="select-native-2" data-mini="true">
-				<option value=""></option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-			</select>
-			<button id="addtocart" onclick="addToCart('product-3-qty')"> Add To Cart</button>
-		</div>
-	</div>
-	<div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
-		<label for="select-native-2">Veggie Pizza</label>
-		<div class="ui-field-contain">
-			<select id="product-4-qty" name="select-native-2" id="select-native-2" data-mini="true">
-				<option value=""></option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-			</select>
-			<button id="addtocart" onclick="addToCart('product-4-qty')"> Add To Cart</button>
-
-		</div>
-	</div>
-	<div class="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">
-		<label for="select-native-2">Chicken and Mushroom Pizza</label>
-		<div class="ui-field-contain">
-			<select id="product-5-qty" name="select-native-2" id="select-native-2" data-mini="true">
-				<option value=""></option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-			</select>
-			<button id="addtocart" onclick="addToCart('product-5-qty')"> Add To Cart</button>
-
-		</div>
-	</div>
-
-	<script>
-		var quantities = [];
-		var ids = [];
-		function proccessItems(element, index, array){
-			ids[index] = element.charAt(8);
-			if(element.charAt(13) == null || element.charAt(14) == 0)quantities[index] =0;
-			else quantities[index] = element.charAt(13);
-		}
-
-
-        // Builds cart table
-        function buildTable(){
-            $.post("/getdetail", {col: "id", table: "product", value: 1 })
+        //Builds the checkout table
+        function buildcart() {
+            ids = [];
+            quantities = [];
+            myCart.forEach(proccessItems);
+            console.log(quantities);
+            let quanToJSON = JSON.stringify(quantities);
+            let idsToJSON = JSON.stringify(ids);
+            $.post("/buildorder", {quanjson: quanToJSON, idjson: idsToJSON})
                 .done(function (data) {
-
-                    console.log(data)
-
-                    //$('#output').html(data);
+                    console.log(data);
+                    $('#revieworder').html(data);
+                    window.location = '/#checkoutpage';
                 });
-
-
-           
-            //TODO finish this code portion for table building
-            for(i=0; i<quantities.length; i++){
-                content += '<tr>' +
-                '<th>'+ ids[i] +  '</th>' +
-                '<td>'+ itemname + '</td>' +
-                '<td>'+ quantity + '</td>' +
-                '<td>' + price  + '</td> </tr>';
-            }
-
-            content += "</tbody></table>"
         }
 
         function addToCart(itemName) {
             // finding out the name of the ITEM we are adding
-            var item = itemName;
+            let item = itemName;
 
             // dynamically find out the qty
-            var qty = $('#' + item).children("option:selected").val();
+            let qty = $('#' + item).children("option:selected").val();
 
 
             // search the cart and see if we already added
@@ -263,7 +233,6 @@
                 }
             });
 
-
             // add the item to the cart
             myCart.push(item + qty);
 
@@ -273,53 +242,23 @@
     <button id='checkout'>checkout</button>
     <script>
         $('#checkout').click(function () {
-			ids = [];
-			quantities = [];
-			myCart.forEach(proccessItems);
-			//console.log("its running");
+            buildcart();
 
-			var table =
-					'<table data-role="table" id="table-column-toggle"  class="ui-responsive table-stroke">' +
-					'<thead>'+
-					'<tr>'+
-					'<th data-priority="2">ID</th>'+
-					'<th>Product Name</th>'+
-					'<th data-priority="3">Quantity</th>'+
-					'<th data-priority="5">Price</th>'+
-					'</tr>'+
-					'</thead>'+
-					'<tbody>';
-
-			for(var i = 0; i < ids.length; i ++){
-				//TODO fix this inneficient code, figure out how to send quantities as a json instead of posting multiple times
-				$.post("/buildorder", {quan: quantities[i], id: ids[i]})
-					.done(function (data) {
-						console.log(data);
-						table+=data;
-						$('#revieworder').html(data);
-					});
-
-			}
-			table+= "</tbody></table>";
-
-
-			//console.log("it ran");
-            //$('#revieworder').html("id: " + ids[0] + ' quantity: ' + quantities[0]);
-            window.location = '/#checkoutpage';
         });
-	</script>
+    </script>
 </div>
-
-
 
 
 <div data-role="page" id="checkoutpage">
 
 
+    <table data-role="table" id="revieworder" class="ui-responsive table-stroke">
 
-    <div id='revieworder'></div>
+
+    </table>
     <button id="placeorder">Place Order</button>
     <script>$('#placeorder').click(function () {
+
             $.post("/placeorder", {cart: myCart.toString()})
                 .done(function (data) {
                     alert("order placed " + data);
@@ -329,8 +268,11 @@
 </div>
 
 
+<div data-role="page" id="cook">
 
-<div data-role="page" id="cook"> used for stock adjustment</div>
+
+
+</div>
 <div data-role="page" id="manager"> manager page</div>
 
 </body>

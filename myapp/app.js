@@ -35,12 +35,10 @@ app.use('/index2', indexRouter2);
 app.use('/users', usersRouter);
 
 
-
-
 app.post('/login', function (req, res) {
 
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
-    var username = req.body.username;
+    let username = req.body.username;
 
     // Print it out to the NodeJS console just to see if we got the variable.
     console.log("User name = " + username);
@@ -48,8 +46,8 @@ app.post('/login', function (req, res) {
 
     // Remember to check what database you are connecting to and if the
     // values are correct.
-    var mysql = require('mysql');
-    var connection = mysql.createConnection({
+    let mysql = require('mysql');
+    let connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
@@ -75,8 +73,8 @@ app.post('/login', function (req, res) {
 app.post('/register', function (req, res) {
 
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
-    var username = req.body.username;
-    var password = req.body.password;
+    let username = req.body.username;
+    let password = req.body.password;
 
     // Print it out to the NodeJS console just to see if we got the variable.
     console.log("User name = " + username, "Password " + password);
@@ -84,8 +82,8 @@ app.post('/register', function (req, res) {
 
     // Remember to check what database you are connecting to and if the
     // values are correct.
-    var mysql = require('mysql');
-    var connection = mysql.createConnection({
+    let mysql = require('mysql');
+    let connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
@@ -113,7 +111,7 @@ app.post('/register', function (req, res) {
 app.post('/cart', function (req, res) {
 
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
-    var num = req.body.number;
+    let num = req.body.number;
 
     // Print it out to the NodeJS console just to see if we got the variable.
     //console.log("User name = "+username);
@@ -121,8 +119,8 @@ app.post('/cart', function (req, res) {
 
     // Remember to check what database you are connecting to and if the
     // values are correct.
-    var mysql = require('mysql');
-    var connection = mysql.createConnection({
+    let mysql = require('mysql');
+    let connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
@@ -180,20 +178,20 @@ app.post('/placeorder', function (req, res) {
 
 app.post('/buildproducttable', function (req, res) {
     // catch the username that was sent to us from the jQuery POST on the index.ejs page
-    
-    
-     var content = '<table data-role="table" id="table-column-toggle"  class="ui-responsive table-stroke">' +
-                '<thead>'+
-                '<tr>'+
-                    '<th data-priority="2">ID</th>'+
-                    '<th>Product Name</th>'+
-                    '<th data-priority="3">Quantity</th>'+
-                    '<th data-priority="5">Price</th>'+
-                '</tr>'+
-                '</thead>'+
-                '<tbody>';
-    
-    
+
+
+    var content = '<table data-role="table" id="table-column-toggle"  class="ui-responsive table-stroke">' +
+        '<thead>' +
+        '<tr>' +
+        '<th data-priority="2">ID</th>' +
+        '<th>Product Name</th>' +
+        '<th data-priority="3">Quantity</th>' +
+        '<th data-priority="5">Price</th>' +
+        '</tr>' +
+        '</thead>' +
+        '<tbody>';
+
+
     var col = req.body.colll;
     var table = req.body.tablll;
     var val = req.body.valll;
@@ -215,26 +213,24 @@ app.post('/buildproducttable', function (req, res) {
     connection.connect();
 
     // This is the actual SQL query part
-    query = "select * from product";
+    let query = "select * from product";
     var buffer = '';
-    
-    
-    
+
+
     connection.query(query, function (error, results, fields) {
             if (error) throw error;
-            
-        
-        
-        
-        for(var i=0; i< results.length; i++){
-               content += '<tr>' +
-                '<th>'+ results[i].id +  '</th>' +
-                '<td>'+ results[i].name + '</td>' +
-                '<td>'+ results[i].quantity + '</td>' +
-                '<td>' + results[i].price  + '</td> </tr>';
-            
-        } content+= "</tbody></table>";
-        
+
+
+            for (var i = 0; i < results.length; i++) {
+                content += '<tr>' +
+                    '<th>' + results[i].id + '</th>' +
+                    '<td>' + results[i].name + '</td>' +
+                    '<td>' + results[i].quantity + '</td>' +
+                    '<td>' + results[i].price + '</td> </tr>';
+
+            }
+            content += "</tbody></table>";
+
 
             // send back the acc type to the client side
             res.send(content);
@@ -246,57 +242,72 @@ app.post('/buildproducttable', function (req, res) {
 });
 
 app.post('/buildorder', function (req, res) {
-    // catch the username that was sent to us from the jQuery POST on the index.ejs page
-    var quantity = req.body.quan;
-    var id = req.body.id;
+    // getting jsons from index.ejs
+    let quansJSON = req.body.quanjson;
+    let idsJSON = req.body.idjson;
 
-    // Remember to check what database you are connecting to and if the
-    // values are correct.
-    var mysql = require('mysql');
-    var connection = mysql.createConnection({
+    //parsing jsons
+    let quans = JSON.parse(quansJSON);
+    let ids = JSON.parse(idsJSON);
+
+    //html for the checkout order table
+    let table =
+        '<thead>' +
+        '<tr>' +
+        '<th data-priority="2">ID</th>' +
+        '<th><abbr title="Product name">Product Name</abbr></th>' +
+        '<th data-priority="3">Quantity</th>' +
+        '<th data-priority="5">Price</th>' +
+        '</tr>' +
+        '</thead>' +
+        '<tbody>';
+
+    //database
+    let mysql = require('mysql');
+    let connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
         database: 'assignment'
     });
-
     connection.connect();
 
-    // This is the actual SQL query part
-    query = "select * from product where id='"+ id +"'";
-    var content = " ";
+    //Query
+    let query = "select * from product";
 
+    // Query execution
     connection.query(query, function (error, results, fields) {
             if (error) throw error;
-                content += '<tr>' +
-                '<th>'+ results[0].id +  '</th>' +
-                '<td>'+ results[0].name + '</td>' +
-                '<td>'+ results[0].quantity + '</td>' +
-                '<td>' + results[0].price  + '</td> </tr>';
+            ids.forEach(function (itemCurrent, index, array) {
+                let i = itemCurrent - 1;
+                let quantity = quans[index];
 
+                //Adding individual items to table
+                table += '<tr>' +
+                    '<th>' + results[i].id + '</th>' +
+                    '<td>' + results[i].name + '</td>' +
+                    '<td>' + quantity + '</td>' +
+                    '<td>' + (results[i].price * quantity).toFixed(2) + '</td> </tr>';
+            });
+            table += "</tbody>";
 
-            // send back the acc type to the client side
-            res.send(content);
+            //Sending data back to html
+            res.send(table);
         }
     );
 
-    connection.end();
+    // send back the acc type to the client side
 
+    connection.end();
 });
 
 app.post('/cooktable', function (req, res) {
 
-    // catch the username that was sent to us from the jQuery POST on the index.ejs page
-    var col = req.body.col;
-
-    // Print it out to the NodeJS console just to see if we got the variable.
-    console.log("User name = " + username);
-
 
     // Remember to check what database you are connecting to and if the
     // values are correct.
-    var mysql = require('mysql');
-    var connection = mysql.createConnection({
+    let mysql = require('mysql');
+    let connection = mysql.createConnection({
         host: 'localhost',
         user: 'root',
         password: '',
@@ -305,10 +316,19 @@ app.post('/cooktable', function (req, res) {
 
     connection.connect();
 
+    let buffer = " "
+
     // This is the actual SQL query part
-    connection.query("select * from login where id='" + col + "'", function (error, results, fields) {
+    connection.query("select * from product", function (error, results, fields) {
             if (error) throw error;
-            console.log('The result is ', results[0].quantity);
+
+            results.forEach(function (element, index, array) {
+                buffer +=
+                    '<div className="ui-grid-solo" style="padding-left: 10%; padding-right: 10%;">' +
+                    '<label for="number-2">' + element.name + '</label>' +
+                    '<input type="number" data-clear-btn="true" name="number-2" id="number-2" value="' + element.quantity + '">' +
+                    '</div>';
+            });
 
             // send back the acc type to the client side
             res.send(results[0].acctype);
